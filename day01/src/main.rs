@@ -12,7 +12,7 @@ fn main() {
 
     println!(
         "The elf with the most calories is carrying {}.",
-        elves.iter().max().unwrap()
+        elves.last().unwrap()
     );
 
     // part 2: how many calories are the top 3 elves carrying in total?
