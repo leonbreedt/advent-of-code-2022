@@ -62,8 +62,6 @@ impl FromStr for Round {
     type Err = String;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        // Opponent: A - Rock, B - Paper, C - Scissors
-        // Me: X - Rock, Y - Paper, Z - Scissors
         let opponent_move = match &s[0..1] {
             "A" => Shape::Rock,
             "B" => Shape::Paper,
