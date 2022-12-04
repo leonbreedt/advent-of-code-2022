@@ -2,7 +2,7 @@ use std::str::FromStr;
 
 type Score = u32;
 
-#[derive(Eq, PartialEq, Debug)]
+#[derive(Eq, PartialEq, Debug, Clone)]
 enum Shape {
     Rock,
     Paper,
@@ -36,21 +36,25 @@ impl Outcome {
     }
 }
 
-struct Round(Shape, Shape);
+struct Round(Shape, Outcome);
 
 impl Round {
     pub fn score(&self) -> Score {
         use Shape::*;
-        let my_outcome = match (&self.1, &self.0) {
-            (Rock, Scissors) => Outcome::Win,
-            (Scissors, Paper) => Outcome::Win,
-            (Paper, Rock) => Outcome::Win,
-            (Rock, Paper) => Outcome::Loss,
-            (Scissors, Rock) => Outcome::Loss,
-            (Paper, Scissors) => Outcome::Loss,
-            _ => Outcome::Draw,
+        let my_move = match &self.1 {
+            Outcome::Win => match self.0 {
+                Rock => Paper,
+                Paper => Scissors,
+                Scissors => Rock,
+            },
+            Outcome::Loss => match self.0 {
+                Rock => Scissors,
+                Paper => Rock,
+                Scissors => Paper,
+            },
+            Outcome::Draw => self.0.clone(),
         };
-        self.1.score() + my_outcome.score()
+        self.1.score() + my_move.score()
     }
 }
 
@@ -66,13 +70,13 @@ impl FromStr for Round {
             "C" => Shape::Scissors,
             _ => return Err(format!("invalid play {}", &s[0..1])),
         };
-        let my_move = match &s[2..3] {
-            "X" => Shape::Rock,
-            "Y" => Shape::Paper,
-            "Z" => Shape::Scissors,
-            _ => return Err(format!("invalid opponent play {}", &s[2..3])),
+        let desired_outcome = match &s[2..3] {
+            "X" => Outcome::Loss,
+            "Y" => Outcome::Draw,
+            "Z" => Outcome::Win,
+            _ => return Err(format!("invalid desired outcome {}", &s[2..3])),
         };
-        Ok(Self(opponent_move, my_move))
+        Ok(Self(opponent_move, desired_outcome))
     }
 }
 
