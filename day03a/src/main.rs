@@ -1,6 +1,6 @@
 use std::{fmt::Display, str::FromStr};
 
-#[derive(Clone, Debug)]
+#[derive(Clone)]
 struct Item(char);
 
 impl Item {
@@ -19,7 +19,6 @@ impl Display for Item {
     }
 }
 
-#[derive(Debug)]
 struct Rucksack(Vec<Item>, Vec<Item>);
 
 impl Rucksack {
