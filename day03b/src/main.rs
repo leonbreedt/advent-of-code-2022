@@ -1,4 +1,4 @@
-use std::{collections::HashSet, fmt::Display, hash::Hash, str::FromStr};
+use std::{collections::HashSet, hash::Hash, str::FromStr};
 
 #[derive(Clone, Eq, PartialEq, Hash)]
 struct Item(char);
@@ -10,12 +10,6 @@ impl Item {
             'A'..='Z' => (self.0 as i32) - 38,
             _ => panic!(),
         }
-    }
-}
-
-impl Display for Item {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.0)
     }
 }
 
