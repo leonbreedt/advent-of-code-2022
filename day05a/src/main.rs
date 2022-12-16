@@ -48,7 +48,7 @@ struct Move {
 }
 
 impl Move {
-    fn perform(&self, stacks: &mut Vec<Stack>) {
+    fn perform(&self, stacks: &mut [Stack]) {
         for _ in 0..self.quantity {
             let crate_to_move = stacks[self.source_stack as usize].pop();
             stacks[self.target_stack as usize].push(crate_to_move);
